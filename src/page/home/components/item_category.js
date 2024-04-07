@@ -6,8 +6,8 @@ import {
   TouchableOpacity,
   Image,
   Modal,
-  Button,
   ScrollView,
+  TextInput,
 } from 'react-native';
 import CheckBox from '../../../common/check_box';
 
@@ -25,113 +25,151 @@ const ItemCategory = ({
   const [selectedConfigIndex, setSelectedConfigIndex] = useState(null);
   const [isSelected, setIsSelected] = useState(false);
   return (
-    <View style={[styles.category, {height: heightContainer}]} key={item.id}>
-      <TouchableOpacity
-        style={{alignItems: 'center', flexDirection: 'column', gap: 2}}
-        onPress={() => setModalVisible(true)}>
-        <Image
-          source={item.image}
-          style={{
-            borderRadius: 19,
-            width: width,
-            height: height,
-          }}
-        />
-        <Text style={{fontWeight: 'bold', color: 'black'}}>{item.name}</Text>
-      </TouchableOpacity>
+    <ScrollView>
+      <View style={[styles.category, {height: heightContainer}]} key={item.id}>
+        <TouchableOpacity
+          style={{alignItems: 'center', flexDirection: 'column', gap: 2}}
+          onPress={() => setModalVisible(true)}>
+          <Image
+            source={item.image}
+            style={{
+              borderRadius: 19,
+              width: width,
+              height: height,
+            }}
+          />
+          <Text style={{fontWeight: 'bold', color: 'black'}}>{item.name}</Text>
+        </TouchableOpacity>
 
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => setModalVisible(false)}>
-        <View style={styles.modalView}>
-          <View style={styles.modalContent}>
-            <View style={{position: 'absolute', right: 18, top: 8}}>
-              <TouchableOpacity
-                onPress={() => setModalVisible(false)}
-                hitSlop={{top: 20, bottom: 20, left: 20, right: 20}}>
-                <Image source={close} />
-              </TouchableOpacity>
-            </View>
-
-            <Image
-              source={item.image}
-              resizeMode="contain"
-              style={{width: 400, height: 300,marginTop:35}}
-            />
-            <View
-              style={{
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-              }}>
-              <Text
-                style={{
-                  fontWeight: 'bold',
-                  fontSize: 28,
-                  textAlign: 'left',
-                  color: 'black',
-                }}>
-                {item.name}
-              </Text>
-              <TouchableOpacity onPress={() => setIsSelected(!isSelected)}>
-                <Image source={isSelected ? heartSelected : heartUnSelected} />
-              </TouchableOpacity>
-            </View>
-            <Text style={{fontSize: 20, color: 'black'}}>
-              {item.description}
-            </Text>
-            <Text style={{fontSize: 18, color: 'black', fontWeight: 'bold'}}>
-              Ram/Rom:
-            </Text>
-            {item.configurations.map((config, index) => (
-              <View
-                key={`config_${index}`}
-                style={{
-                  flexDirection: 'row',
-                  justifyContent: 'space-between',
-                  marginBottom: 5,
-                }}>
-                <View
-                  style={{flexDirection: 'row', alignItems: 'center', gap: 8}}>
-                  <CheckBox
-                    checked={selectedConfigIndex === index}
-                    onPress={() => setSelectedConfigIndex(index)}
-                  />
-                  <Text style={{fontSize: 18, color: 'black'}}>
-                    {config.ram}/{config.rom}
-                  </Text>
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={modalVisible}
+          onRequestClose={() => setModalVisible(false)}>
+          <ScrollView>
+            <View style={styles.modalView}>
+              <View style={styles.modalContent}>
+                <View style={{position: 'absolute', right: 18, top: 8}}>
+                  <TouchableOpacity
+                    onPress={() => setModalVisible(false)}
+                    hitSlop={{top: 20, bottom: 20, left: 20, right: 20}}>
+                    <Image source={close} />
+                  </TouchableOpacity>
                 </View>
-                <Text style={{fontSize: 18, color: 'black'}}>
-                  {config.price}
-                </Text>
-              </View>
-            ))}
 
-            <TouchableOpacity
-              onPress={() => setModalVisible(false)}
-              style={{
-                backgroundColor: '#F9B15D',
-                height: 50,
-                borderRadius: 15,
-                alignItems: 'center',
-                justifyContent: 'center',
-                marginVertical: 10,
-              }}>
-              <Text
-                style={{
-                  color: 'white',
-                  fontWeight: 'bold',
-                  fontSize: 16,
-                }}>
-                Buy
-              </Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </Modal>
-    </View>
+                <Image
+                  source={item.image}
+                  resizeMode="contain"
+                  style={{width: 400, height: 300, marginTop: 35}}
+                />
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                  }}>
+                  <Text
+                    style={{
+                      fontWeight: 'bold',
+                      fontSize: 28,
+                      textAlign: 'left',
+                      color: 'black',
+                    }}>
+                    {item.name}
+                  </Text>
+                  <TouchableOpacity onPress={() => setIsSelected(!isSelected)}>
+                    <Image
+                      source={isSelected ? heartSelected : heartUnSelected}
+                    />
+                  </TouchableOpacity>
+                </View>
+                <Text style={{fontSize: 20, color: 'black'}}>
+                  {item.description}
+                </Text>
+                <Text
+                  style={{fontSize: 18, color: 'black', fontWeight: 'bold'}}>
+                  Ram/Rom:
+                </Text>
+                {item.configurations.map((config, index) => (
+                  <View
+                    key={`config_${index}`}
+                    style={{
+                      flexDirection: 'row',
+                      justifyContent: 'space-between',
+                      marginBottom: 5,
+                    }}>
+                    <View
+                      style={{
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                        gap: 8,
+                      }}>
+                      <CheckBox
+                        checked={selectedConfigIndex === index}
+                        onPress={() => setSelectedConfigIndex(index)}
+                      />
+                      <Text style={{fontSize: 18, color: 'black'}}>
+                        {config.ram}/{config.rom}
+                      </Text>
+                    </View>
+                    <Text style={{fontSize: 18, color: 'black'}}>
+                      {config.price}
+                    </Text>
+                  </View>
+                ))}
+                <TouchableOpacity
+                  onPress={() => setModalVisible(false)}
+                  style={{
+                    backgroundColor: '#F9B15D',
+                    height: 50,
+                    borderRadius: 15,
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    marginVertical: 10,
+                  }}>
+                  <Text
+                    style={{
+                      color: 'white',
+                      fontWeight: 'bold',
+                      fontSize: 16,
+                    }}>
+                    Buy
+                  </Text>
+                </TouchableOpacity>
+                {/* Comment Container */}
+                <View style={styles.commentContainer}>
+                  <View
+                    style={{
+                      borderBottomColor: 'gray',
+                      borderBottomWidth: 1,
+                      marginBottom: 20,
+                    }}>
+                    <Text style={styles.commentHeader}>Comment</Text>
+                    <Text style={styles.commentText}>
+                      Đánh giá về sản phẩm:
+                    </Text>
+                  </View>
+
+                  {/* Comment Content */}
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                      gap: 10,
+                      marginBottom: 20,
+                    }}>
+                    <View>
+                      <Text>Name user</Text>
+                      <Text>Very good</Text>
+                    </View>
+                  </View>
+                </View>
+              </View>
+            </View>
+          </ScrollView>
+        </Modal>
+      </View>
+    </ScrollView>
   );
 };
 
@@ -172,4 +210,17 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 18,
   },
+  commentContainer: {
+    marginTop: 15,
+    paddingTop: 10,
+    paddingHorizontal: 10,
+  },
+  commentHeader: {
+    fontSize: 18,
+  },
+  commentText: {
+    color: 'gray',
+    marginBottom: 10,
+  },
+  commentUserName: {},
 });

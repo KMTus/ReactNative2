@@ -7,7 +7,7 @@ import {
   View,
 } from 'react-native';
 import React from 'react';
-import { StackActions } from '@react-navigation/native';
+import {StackActions} from '@react-navigation/native';
 const u = require('../../assets/user.png');
 const iconNotify = require('../../assets/notification.png');
 const cart = require('../../assets/c2.png');
@@ -63,7 +63,7 @@ const ProfilePage = ({navigation}) => {
               />
             </View>
             <Text style={{fontSize: 22, color: 'white', fontWeight: 'bold'}}>
-              Nguyễn Văn Nam
+              Kiều Minh Tú
             </Text>
           </View>
         </View>
@@ -524,8 +524,8 @@ const ProfilePage = ({navigation}) => {
             <TouchableOpacity
               style={styles.btnLogin}
               onPress={() => {
-                navigation.dispatch(StackActions.replace("LoginPage"));
-            }}>
+                navigation.dispatch(StackActions.replace('LoginPage'));
+              }}>
               <Text style={styles.loginText}>Đăng xuất</Text>
             </TouchableOpacity>
           </View>
@@ -545,8 +545,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     marginVertical: 40,
-    borderWidth:1,
-    borderColor:"#DDBBAA"
+    borderWidth: 1,
+    borderColor: '#DDBBAA',
   },
   loginText: {color: 'black', fontSize: 16},
 });
