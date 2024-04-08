@@ -10,6 +10,8 @@ import {
   ScrollView,
 } from 'react-native';
 import CheckBox from '../../../common/check_box';
+import { deleteYeuthApi } from '../../home/redux/actions/yeuthichAction';
+import { useDispatch, useSelector } from 'react-redux';
 
 const heartSelected = require('../../../assets/heart_select.png');
 const heartUnSelected = require('../../../assets/heart_unselec.png');
@@ -24,6 +26,14 @@ const ItemFavourite = ({
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedConfigIndex, setSelectedConfigIndex] = useState(null);
   const [isSelected, setIsSelected] = useState(false);
+
+
+  const dispatch = useDispatch();
+
+  const deleteFavourite = () => {
+    dispatch(deleteYeuthApi(item.id)).then(() => console.log('delete succes')).catch(err => console.log(err))
+    
+  }
   return (
     <View
       style={[styles.category, {height: heightContainer, width: '100%'}]}
@@ -37,7 +47,8 @@ const ItemFavourite = ({
         }}
         onPress={() => setModalVisible(true)}>
         <Image
-          source={item.image}
+          resizeMode='center'
+          source={{uri: item.image.toString()}}
           style={{
             borderRadius: 19,
             width: width,
@@ -65,7 +76,9 @@ const ItemFavourite = ({
             justifyContent: 'space-evenly',
             height: '100%',
           }}>
-          <Image source={heartSelected} width={undefined} height={undefined} />
+            <TouchableOpacity onPress={() => deleteFavourite()}>
+              <Image source={heartSelected} width={undefined} height={undefined} />
+            </TouchableOpacity>
           <Text>Xem chi tiết</Text>
         </View>
       </TouchableOpacity>
@@ -86,7 +99,7 @@ const ItemFavourite = ({
             </View>
 
             <Image
-              source={item.image}
+              source={{uri: item.image.toString()}}
               resizeMode="contain"
               style={{width: 400, height: 300, marginTop: 35}}
             />

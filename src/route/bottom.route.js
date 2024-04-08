@@ -6,6 +6,9 @@ import MessagePage from '../page/message';
 import BillPage from '../page/bill';
 import ProfilePage from '../page/profile';
 
+import { Provider } from 'react-redux';
+import store from '../page/home/redux/store';
+
 const BottomBar = createBottomTabNavigator();
 
 const iconHome = require('../assets/home.png');
@@ -13,6 +16,23 @@ const iconFavourite = require('../assets/heart.png');
 const iconMessage = require('../assets/telegram.png');
 const iconBill = require('../assets/receip.png');
 const iconProfile = require('../assets/profile-user.png');
+
+
+const Home = () => {
+  return(
+    <Provider store={store}>
+        <HomePage/>
+    </Provider>
+  )
+}
+
+const Favourite = () => {
+  return(
+    <Provider store={store}>
+        <FavouritePage/>
+    </Provider>
+  )
+}
 
 const BottomNavigation = () => {
   return (
@@ -24,7 +44,7 @@ const BottomNavigation = () => {
         tabBarItemStyle: styles.tabBarItemStyle,
       }}>
       <BottomBar.Screen
-        component={HomePage}
+        component={Home}
         name="HomePage"
         options={{
           tabBarIcon: ({color, size, focused}) => <Image source={iconHome} />,
@@ -42,7 +62,7 @@ const BottomNavigation = () => {
       />
 
       <BottomBar.Screen
-        component={FavouritePage}
+        component={Favourite}
         name="FavouritePage"
         options={{
           tabBarIcon: ({color, size, focused}) => (
@@ -121,6 +141,8 @@ const BottomNavigation = () => {
     </BottomBar.Navigator>
   );
 };
+
+
 
 export default BottomNavigation;
 const styles = StyleSheet.create({
