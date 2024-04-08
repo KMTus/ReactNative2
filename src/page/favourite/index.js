@@ -1,10 +1,28 @@
 import {FlatList, Image, StyleSheet, Text, TextInput, View} from 'react-native';
-import React from 'react';
+import React, { useEffect } from 'react';
 import ItemFavourite from './components/item';
 import {phoneCategory} from '../home/data';
+import { fetchYeuthic } from '../home/redux/actions/yeuthichAction';
 const iconSearch = require('../../assets/search.png');
+import { useDispatch, useSelector } from 'react-redux';
 
 const FavouritePage = () => {
+
+
+  const listYeuthich = useSelector(state => state.listYeuthich.listYeuthich);
+
+  const dispatch = useDispatch();// của redux
+  useEffect(() => {
+    dispatch(fetchYeuthic());
+  }, [dispatch]);
+
+
+  console.log(listYeuthich);
+
+
+
+
+
   return (
     <View style={styles.container}>
       <View style={styles.password}>
@@ -21,7 +39,7 @@ const FavouritePage = () => {
         <TextInput placeholder="Find the phone brand you want." />
       </View>
       <FlatList
-        data={phoneCategory}
+        data={listYeuthich}
         renderItem={({item}) => <ItemFavourite item={item} />}
         keyExtractor={item => item.id}
         horizontal={false}

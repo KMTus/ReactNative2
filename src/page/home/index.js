@@ -7,16 +7,30 @@ import {
   TextInput,
   View,
 } from 'react-native';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Slider from './components/slider';
 import ItemCategory from './components/item_category';
 import {phoneCategory} from './data';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchTodos } from './redux/actions/todoAction';
+
 
 const iconCart = require('../../assets/cart.png');
 const iconNotify = require('../../assets/notification.png');
 const iconSearch = require('../../assets/search.png');
 
 const HomePage = () => {
+
+  const listTodo = useSelector(state => state.listTodo.listTodo);
+
+  const dispatch = useDispatch();// của redux
+  useEffect(() => {
+    dispatch(fetchTodos());
+  }, [dispatch]);
+
+
+  // console.log(listTodo);
+
   return (
     <FlatList
       style={styles.scrollView}
@@ -39,6 +53,7 @@ const HomePage = () => {
               <Image source={iconNotify} />
             </View>
           </View>
+
           {/* search */}
           <View style={styles.password}>
             <View style={styles.visible}>
@@ -54,8 +69,10 @@ const HomePage = () => {
             <TextInput placeholder="Find the phone brand you want." />
           </View>
           <Slider />
+
           <View style={{marginVertical: 40, gap: 10}}>
-            <View
+            
+            {/* <View
               style={{
                 flexDirection: 'row',
                 justifyContent: 'space-between',
@@ -69,8 +86,10 @@ const HomePage = () => {
                 style={{fontSize: 13, fontWeight: 'bold', color: '#929292'}}>
                 View All
               </Text>
-            </View>
-            <FlatList
+            </View> */}
+
+
+            {/* <FlatList
               data={phoneCategory}
               renderItem={({item}) => <ItemCategory item={item} />}
               keyExtractor={item => item.id}
@@ -80,7 +99,7 @@ const HomePage = () => {
                 alignItems: 'center',
                 justifyContent: 'center',
               }}
-            />
+            /> */}
           </View>
 
           <View style={{gap: 10}}>
@@ -100,14 +119,14 @@ const HomePage = () => {
               </Text>
             </View>
             <FlatList
-              data={phoneCategory.slice(0, 4)}
+              data={listTodo}
               numColumns={2}
               renderItem={({item}) => (
                 <ItemCategory
                   item={item}
-                  width={175}
+                  width={160}
                   heightContainer={220}
-                  height={175}
+                  height={160}
                 />
               )}
               keyExtractor={item => item.id}
@@ -119,8 +138,22 @@ const HomePage = () => {
               showsHorizontalScrollIndicator={false}
             />
           </View>
+
+
+
+
+
+
+
+
+
+
+
+
+
+          
           <View style={{marginVertical: 40, gap: 10}}>
-            <View
+            {/* <View
               style={{
                 flexDirection: 'row',
                 justifyContent: 'space-between',
@@ -134,8 +167,8 @@ const HomePage = () => {
                 style={{fontSize: 13, fontWeight: 'bold', color: '#929292'}}>
                 View All
               </Text>
-            </View>
-            <FlatList
+            </View> */}
+            {/* <FlatList
               data={phoneCategory}
               renderItem={({item}) => <ItemCategory item={item} />}
               keyExtractor={item => item.id}
@@ -145,7 +178,7 @@ const HomePage = () => {
                 alignItems: 'center',
                 justifyContent: 'center',
               }}
-            />
+            /> */}
           </View>
           <View style={{gap: 10}}>
             <View
@@ -156,7 +189,7 @@ const HomePage = () => {
               }}>
               <Text
                 style={{fontSize: 22, fontWeight: 'bold', color: '#DBA668'}}>
-                Propound
+                History
               </Text>
               <Text
                 style={{fontSize: 13, fontWeight: 'bold', color: '#929292'}}>
@@ -164,18 +197,18 @@ const HomePage = () => {
               </Text>
             </View>
             <FlatList
-              data={phoneCategory.slice(0, 4)}
-              numColumns={2}
+              data={listTodo}
+              // numColumns={2}
               renderItem={({item}) => (
                 <ItemCategory
                   item={item}
-                  width={170}
+                  width={160}
                   heightContainer={220}
-                  height={170}
+                  height={160}
                 />
               )}
               keyExtractor={item => item.id}
-              horizontal={false}
+              horizontal={true}
               showsHorizontalScrollIndicator={false}
               contentContainerStyle={{paddingHorizontal: 10}}
             />

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import {
   StyleSheet,
   Text,
@@ -10,6 +10,8 @@ import {
   TextInput,
 } from 'react-native';
 import CheckBox from '../../../common/check_box';
+import { useDispatch, useSelector } from 'react-redux';
+import { addYeuthAPI } from '../redux/actions/yeuthichAction';
 
 const heartSelected = require('../../../assets/heart_select.png');
 const heartUnSelected = require('../../../assets/heart_unselec.png');
@@ -24,21 +26,47 @@ const ItemCategory = ({
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedConfigIndex, setSelectedConfigIndex] = useState(null);
   const [isSelected, setIsSelected] = useState(false);
+
+
+  const dispatch = useDispatch();
+
+  const btn_yeuthich = () => {
+    // setIsSelected(!isSelected)
+
+    const dulieumoi = {
+
+      name: item.name,
+      image: item.image,
+      configurations: item.configurations,
+      description: item.description
+
+    }
+
+    dispatch(addYeuthAPI(dulieumoi))
+    .then(() => {
+        // console.log(result);
+        alert('da them vao yeu thic!');
+    })
+    .catch((error) => {
+        console.error('Error add yeu thic:', error);
+    });
+
+  }
   return (
     <ScrollView>
-      <View style={[styles.category, {height: heightContainer}]} key={item.id}>
+      <View style={[styles.category, { height: heightContainer }]} key={item.id.toString()}>
         <TouchableOpacity
-          style={{alignItems: 'center', flexDirection: 'column', gap: 2}}
+          style={{ alignItems: 'center', flexDirection: 'column', gap: 2 }}
           onPress={() => setModalVisible(true)}>
           <Image
-            source={item.image}
+            source={{ uri: item.image.toString() }}
             style={{
               borderRadius: 19,
               width: width,
               height: height,
             }}
           />
-          <Text style={{fontWeight: 'bold', color: 'black'}}>{item.name}</Text>
+          <Text style={{ fontWeight: 'bold', color: 'black' }}>{item.name.toString()}</Text>
         </TouchableOpacity>
 
         <Modal
@@ -49,18 +77,18 @@ const ItemCategory = ({
           <ScrollView>
             <View style={styles.modalView}>
               <View style={styles.modalContent}>
-                <View style={{position: 'absolute', right: 18, top: 8}}>
+                <View style={{ position: 'absolute', right: 18, top: 8 }}>
                   <TouchableOpacity
                     onPress={() => setModalVisible(false)}
-                    hitSlop={{top: 20, bottom: 20, left: 20, right: 20}}>
+                    hitSlop={{ top: 20, bottom: 20, left: 20, right: 20 }}>
                     <Image source={close} />
                   </TouchableOpacity>
                 </View>
 
                 <Image
-                  source={item.image}
+                  source={{ uri: item.image.toString() }}
                   resizeMode="contain"
-                  style={{width: 400, height: 300, marginTop: 35}}
+                  style={{ width: 400, height: 300, marginTop: 35 }}
                 />
                 <View
                   style={{
@@ -77,17 +105,19 @@ const ItemCategory = ({
                     }}>
                     {item.name}
                   </Text>
-                  <TouchableOpacity onPress={() => setIsSelected(!isSelected)}>
+                  <TouchableOpacity onPress={() => {
+                    btn_yeuthich();
+                  }}>
                     <Image
                       source={isSelected ? heartSelected : heartUnSelected}
                     />
                   </TouchableOpacity>
                 </View>
-                <Text style={{fontSize: 20, color: 'black'}}>
+                <Text style={{ fontSize: 20, color: 'black' }}>
                   {item.description}
                 </Text>
                 <Text
-                  style={{fontSize: 18, color: 'black', fontWeight: 'bold'}}>
+                  style={{ fontSize: 18, color: 'black', fontWeight: 'bold' }}>
                   Ram/Rom:
                 </Text>
                 {item.configurations.map((config, index) => (
@@ -108,11 +138,11 @@ const ItemCategory = ({
                         checked={selectedConfigIndex === index}
                         onPress={() => setSelectedConfigIndex(index)}
                       />
-                      <Text style={{fontSize: 18, color: 'black'}}>
+                      <Text style={{ fontSize: 18, color: 'black' }}>
                         {config.ram}/{config.rom}
                       </Text>
                     </View>
-                    <Text style={{fontSize: 18, color: 'black'}}>
+                    <Text style={{ fontSize: 18, color: 'black' }}>
                       {config.price}
                     </Text>
                   </View>
